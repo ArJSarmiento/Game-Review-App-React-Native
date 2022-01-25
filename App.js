@@ -1,20 +1,42 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import { Button, View } from 'react-native';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import { NavigationContainer } from '@react-navigation/native';
+import HomeScreen from './screens/home';
+import AboutScreen from './screens/about';
+import AppLoading from 'expo-app-loading';
+import { useFonts } from 'expo-font';
+
+const Drawer = createDrawerNavigator();
+
+const screenOptions = {
+  drawerLabelStyle:
+  {
+    fontFamily: 'nunito-bold',
+  },
+  headerTitleAlign: 'center',
+  headerTitleStyle: {
+    fontFamily: 'nunito-bold'
+  }
+};
 
 export default function App() {
+
+  let [fontsLoaded] = useFonts({
+    'nunito-regular': require('./assets/fonts/Nunito-Regular.ttf'),
+    'nunito-bold': require('./assets/fonts/Nunito-Bold.ttf'),
+  });
+
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  }
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer >
+      <Drawer.Navigator initialRouteName="Home" screenOptions={screenOptions}>
+        <Drawer.Screen name="Home" component={HomeScreen} />
+        <Drawer.Screen name="About" component={AboutScreen} />
+      </Drawer.Navigator>
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
