@@ -1,45 +1,37 @@
 import React, { useState } from 'react';
-import { Button, View } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import DetailsScreen from './details';
+import { StyleSheet, View, Text, TouchableOpacity, FlatList } from 'react-native';
+import { globalStyles } from '../styles/global';
 
-const Stack = createNativeStackNavigator();
-
-function Home({ navigation }) {
+function Home({ navigation, showHandler }) {
+    showHandler(true);
+    const [reviews, setReviews] = useState([
+        { title: 'Zelda, Breath of Fresh Air', rating: 5, body: 'lorem ipsum', key: '1' },
+        { title: 'Gotta Catch Them All (again)', rating: 4, body: 'lorem ipsum', key: '2' },
+        { title: 'Not So "Final" Fantasy', rating: 3, body: 'lorem ipsum', key: '3' },
+    ]);
 
     return (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            <Button
-                onPress={() => navigation.navigate('Details')}
-                title="Go to details"
-            />
+        <View style={globalStyles.container}>
+            <FlatList data={reviews} renderItem={({ item }) => (
+                <TouchableOpacity onPress={() => navigation.navigate('Details', item)}>
+                    <Text style={globalStyles.titleText}>{item.title}</Text>
+                </TouchableOpacity>
+            )} />
         </View>
     );
 }
 
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: 'black',
+    },
+    content: {
+        padding: 40,
+    },
+    list: {
+        marginTop: 20,
+    },
+});
 
-function MyStack() {
-    const [show, setShow] = useState(true);
-
-    let showHandler = (value) => {
-        setShow(value);
-        return value;
-    };
-
-    const screenOptions = {
-        headerShown: show
-    };
-    return (
-        <Stack.Navigator screenOptions={screenOptions}>
-            <Stack.Screen name="Home" component={Home} />
-            <Stack.Screen name="Details" component={DetailsScreen} />
-        </Stack.Navigator>
-    );
-}
-
-export default function HomeScreen() {
-    return (
-        <MyStack />
-    );
-}
+export default Home;

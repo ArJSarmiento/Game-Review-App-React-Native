@@ -1,17 +1,14 @@
 import * as React from 'react';
-import { Button, View } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
+import { Button, View, Text } from 'react-native';
+import { globalStyles } from '../styles/global';
 
-function DetailsScreen({ navigation }) {
-    navigation.navigation.setOptions({
-        headerShown: false,
-    });
+function DetailsScreen({ route, navigation, showHandler }) {
+    showHandler(false);
     return (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            <Button
-                onPress={() => navigation.navigate('Home')}
-                title="Go to home"
-            />
+        <View style={globalStyles.container}>
+            <Text>{route.params.title}</Text>
+            <Text>{route.params.body}</Text>
+            <Text>{route.params.rating}</Text>
         </View>
     );
 }

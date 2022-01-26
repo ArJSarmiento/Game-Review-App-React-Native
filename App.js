@@ -2,25 +2,37 @@ import React, { useState } from 'react';
 import { Button, View } from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
-import HomeScreen from './screens/home';
+import HomeScreen from './routes/homeScreen';
 import AboutScreen from './screens/about';
 import AppLoading from 'expo-app-loading';
 import { useFonts } from 'expo-font';
 
 const Drawer = createDrawerNavigator();
 
-const screenOptions = {
-  drawerLabelStyle:
-  {
-    fontFamily: 'nunito-bold',
-  },
-  headerTitleAlign: 'center',
-  headerTitleStyle: {
-    fontFamily: 'nunito-bold'
-  }
-};
 
 export default function App() {
+  const [show, setShow] = useState(true);
+
+  let showHandler = (value) => {
+    if (value === undefined || value === null) {
+      return show
+    }
+    else {
+      return setShow(value);
+    }
+  };
+
+  let screenOptions = {
+    drawerLabelStyle:
+    {
+      fontFamily: 'nunito-bold',
+    },
+    headerTitleAlign: 'center',
+    headerTitleStyle: {
+      fontFamily: 'nunito-bold'
+    },
+    headerShown: show,
+  };
 
   let [fontsLoaded] = useFonts({
     'nunito-regular': require('./assets/fonts/Nunito-Regular.ttf'),
@@ -31,10 +43,14 @@ export default function App() {
     return <AppLoading />;
   }
 
+  let homeComponent = () => {
+    return <HomeScreen showHandler={showHandler} />
+  }
+
   return (
     <NavigationContainer >
       <Drawer.Navigator initialRouteName="Home" screenOptions={screenOptions}>
-        <Drawer.Screen name="Home" component={HomeScreen} />
+        <Drawer.Screen name="Home" component={homeComponent} />
         <Drawer.Screen name="About" component={AboutScreen} />
       </Drawer.Navigator>
     </NavigationContainer>
