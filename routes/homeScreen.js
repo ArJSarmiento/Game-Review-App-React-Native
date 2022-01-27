@@ -11,10 +11,10 @@ export default function HomeScreen({ showHandler }) {
     let options = {
         headerShown: !showHandler(),
         swipeEnabled: !showHandler(),
-        headerBackground: (
+        headerBackground: () => (
             <Image
-                style={StyleSheet.absoluteFill}
-                source={{ uri: 'https://upload.wikimedia.org/wikipedia/commons/3/36/Hopetoun_falls.jpg' }}
+                style={{ height: "100%" }}
+                source={require('../assets/game_bg.png')}
             />
         ),
         headerTitle: () => (

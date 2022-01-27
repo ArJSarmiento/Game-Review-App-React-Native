@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, View, Image, StyleSheet, Text } from 'react-native';
+import { Image } from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
 import HomeScreen from './routes/homeScreen';
